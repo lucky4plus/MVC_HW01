@@ -1,0 +1,13 @@
+﻿@model Money.Models.ViewModels.MoneyViewModel
+
+@{
+    ViewBag.Title = "ListMyMoney";
+    Layout = null;
+}
+
+
+<td>@(Enum.GetName(typeof(Money.Models.ViewModels.MyCategory),Model.Category))</td>
+<td>@Model.Date.ToString("yyyy-MM-dd")</td>
+<td>@Model.Money.ToString("N0")</td>
+
+

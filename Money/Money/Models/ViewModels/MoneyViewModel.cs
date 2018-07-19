@@ -9,6 +9,7 @@ namespace Money.Models.ViewModels
 {
     public class MoneyViewModel
     {
+        public Guid Id { get; set; }
         [Required]
         [DisplayName("類別")]
         public int Category { get; set; }

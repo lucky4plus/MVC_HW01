@@ -1,4 +1,6 @@
-﻿@model Money.Models.ViewModels.MoneyViewModel
+﻿@using Money.Helper
+@model IEnumerable<Money.Models.ViewModels.MoneyViewModel>
+
 
 @{
     ViewBag.Title = "ListMyMoney";
@@ -7,19 +9,22 @@
 <table class="table table-bordered table-hover">
     <tr>
         <th>#</th>
-        <th>類別</th>
-        <th>日期</th>
-        <th>金額</th>
+        <th> @Html.DisplayNameFor(model => model.Category)</th>
+        <th> @Html.DisplayNameFor(model => model.Date)</th>
+        <th> @Html.DisplayNameFor(model => model.Money)</th>
     </tr>
+
     @{
-        for (int i = 0; i < 50; i++)
+        int i = 0;
+        foreach (var item in Model)
         {
             <tr>
-                <td>@(i + 1)</td>
-                <td>@(Enum.GetName(typeof(Money.Models.ViewModels.MyCategory), Model.Category))</td>
-                <td>@Model.Date.ToString("yyyy-MM-dd")</td>
-                <td>@Model.Money.ToString("N0")</td>
+                <td>@(i += 1)</td>
+                <td>@Html.DisplayCategoryColor(Enum.GetName(typeof(Money.Models.ViewModels.MyCategory), item.Category))</td>
+                <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                <td>@item.Money.ToString("N0")</td>
             </tr>
+
         }
     }
 

@@ -25,5 +25,5 @@ namespace Money.Models.ViewModels
         [MaxLength(100, ErrorMessage = "長度不可超過100字")]
         public string Remark { get; set; }
     }
-    public enum MyCategory { 支出 = 1, 收入 };
+    public enum MyCategory { 支出 , 收入 };
 }

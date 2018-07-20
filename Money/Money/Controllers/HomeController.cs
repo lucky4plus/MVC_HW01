@@ -4,10 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Money.Models.ViewModels;
+using Money.Models;
+using Money.Service;
+using Money.Repository;
 namespace Money.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AccountBookService _accountBookService;
+        private readonly UnitOfWork _unitOfWork;
+
+        public HomeController()
+        {
+            _unitOfWork = new UnitOfWork();
+            _accountBookService = new AccountBookService(_unitOfWork);
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -15,14 +27,7 @@ namespace Money.Controllers
         [ChildActionOnly]
         public ActionResult ListMyMoney()
         {
-            Random rnd = new Random(Guid.NewGuid().GetHashCode());
-            DateTime today = DateTime.Now;
-            var result = new MoneyViewModel
-            {
-                Category = rnd.Next(1, 3),
-                Money = rnd.Next(1, 10000),
-                Date = today.AddDays(rnd.Next(0, 50))
-            };
+            var result = _accountBookService.Lookup().OrderByDescending(x=>x.Date).Take(50);
             return View(result);
         }
         public ActionResult About()

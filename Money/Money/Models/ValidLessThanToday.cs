@@ -10,20 +10,15 @@ namespace Money.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-
-            DateTime inputDate = Convert.ToDateTime(value);
-
-            if (inputDate <= DateTime.Now)
+            if (DateTime.TryParse(value.ToString(), out DateTime inputDate))
             {
-                return ValidationResult.Success;
-
-            }
-            else
-            {
-                return new ValidationResult("日期不可大於今天");
+                if (inputDate <= DateTime.Now)
+                {
+                    return ValidationResult.Success;
+                }
             }
 
-
+            return new ValidationResult("日期不可大於今天");
         }
     }
 }

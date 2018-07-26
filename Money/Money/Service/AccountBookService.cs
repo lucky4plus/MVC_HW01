@@ -5,6 +5,7 @@ using System.Web;
 using Money.Models;
 using Money.Repository;
 using Money.Models.ViewModels;
+
 namespace Money.Service
 {
     public class AccountBookService
@@ -21,14 +22,15 @@ namespace Money.Service
             var source = _accountBookRepository.LookupAll();
             var result = source.Select(acountBook => new MoneyViewModel()
             {
-                Id = acountBook.Id,
+                Id       = acountBook.Id,
                 Category = acountBook.Categoryyy,
-                Date = acountBook.Dateee,
-                Money = acountBook.Amounttt,
-                Remark = acountBook.Remarkkk
+                Date     = acountBook.Dateee,
+                Money    = acountBook.Amounttt,
+                Remark   = acountBook.Remarkkk
             });
             return result;
         }
+
         /// <summary>
         /// 取一筆記帳明細
         /// </summary>
@@ -36,16 +38,23 @@ namespace Money.Service
         /// <returns></returns>
         public MoneyViewModel GetSingle(Guid accountBookId)
         {
-            var source = _accountBookRepository.GetSingle(x => x.Id == accountBookId);
-            return new MoneyViewModel
+            var source = _accountBookRepository
+               .GetSingle(x => x.Id == accountBookId);
+            if (source != null)
             {
-                Id = source.Id,
-                Category = source.Categoryyy,
-                Date = source.Dateee,
-                Money = source.Amounttt,
-                Remark = source.Remarkkk
-            };
+                return new MoneyViewModel
+                {
+                    Id       = source.Id,
+                    Category = source.Categoryyy,
+                    Date     = source.Dateee,
+                    Money    = source.Amounttt,
+                    Remark   = source.Remarkkk
+                };
+            }
+
+            return null;
         }
+
         /// <summary>
         /// 新增記帳明細
         /// </summary>
@@ -54,13 +63,14 @@ namespace Money.Service
         {
             _accountBookRepository.Create(new AccountBook
             {
-                Id = accountBook.Id,
+                Id         = accountBook.Id,
                 Categoryyy = accountBook.Category,
-                Dateee = accountBook.Date,
-                Amounttt = accountBook.Money,
-                Remarkkk = accountBook.Remark
+                Dateee     = accountBook.Date,
+                Amounttt   = accountBook.Money,
+                Remarkkk   = accountBook.Remark
             });
         }
+
         /// <summary>
         /// 編輯記帳明細
         /// </summary>
@@ -72,11 +82,12 @@ namespace Money.Service
             if (oldData != null)
             {
                 oldData.Categoryyy = pageData.Category;
-                oldData.Dateee = pageData.Date;
-                oldData.Remarkkk = pageData.Remark;
-                oldData.Amounttt = pageData.Money;
+                oldData.Dateee     = pageData.Date;
+                oldData.Remarkkk   = pageData.Remark;
+                oldData.Amounttt   = pageData.Money;
             }
         }
+
         /// <summary>
         /// 刪除記帳明細
         /// </summary>
@@ -85,6 +96,5 @@ namespace Money.Service
         {
             _accountBookRepository.Remove(_accountBookRepository.GetSingle(x => x.Id == id));
         }
-
     }
 }
